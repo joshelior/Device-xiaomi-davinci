@@ -31,14 +31,12 @@ public class DozeService extends Service {
 
     private ProximitySensor mProximitySensor;
     private PickupSensor mPickupSensor;
-    private FodDetectorSensor mFodDetectorSensor;
 
     @Override
     public void onCreate() {
         if (DEBUG) Log.d(TAG, "Creating service");
         mProximitySensor = new ProximitySensor(this);
         mPickupSensor = new PickupSensor(this);
-        mFodDetectorSensor = new FodDetectorSensor(this);
 
         IntentFilter screenStateFilter = new IntentFilter();
         screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
@@ -59,7 +57,6 @@ public class DozeService extends Service {
         this.unregisterReceiver(mScreenStateReceiver);
         mProximitySensor.disable();
         mPickupSensor.disable();
-        mFodDetectorSensor.disable();
     }
 
     @Override
@@ -76,9 +73,6 @@ public class DozeService extends Service {
                 DozeUtils.isPocketGestureEnabled(this)) {
             mProximitySensor.disable();
         }
-        if (DozeUtils.isFodDetectorEnabled(this)) {
-            mFodDetectorSensor.disable();
-        }
     }
 
     private void onDisplayOff() {
@@ -89,9 +83,6 @@ public class DozeService extends Service {
         if (DozeUtils.isHandwaveGestureEnabled(this) ||
                 DozeUtils.isPocketGestureEnabled(this)) {
             mProximitySensor.enable();
-        }
-        if (DozeUtils.isFodDetectorEnabled(this)) {
-            mFodDetectorSensor.enable();
         }
     }
 

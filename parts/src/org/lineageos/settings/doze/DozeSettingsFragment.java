@@ -54,7 +54,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
     private SwitchPreference mRaiseToWakePreference;
     private SwitchPreference mHandwavePreference;
     private SwitchPreference mPocketPreference;
-    private SwitchPreference mFodDetectorPreference;
 
     private Handler mHandler = new Handler();
 
@@ -81,8 +80,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
                 findPreference(DozeUtils.CATEG_PICKUP_SENSOR);
         PreferenceCategory proximitySensorCategory = (PreferenceCategory) getPreferenceScreen().
                 findPreference(DozeUtils.CATEG_PROX_SENSOR);
-        PreferenceCategory fodSensorCategory = (PreferenceCategory) getPreferenceScreen().
-                findPreference(DozeUtils.CATEG_FOD_SENSOR);
 
         SwitchPreference raiseToWakeGesture = (SwitchPreference) getPreferenceScreen().
                 findPreference(DozeUtils.GESTURE_RAISE_TO_WAKE);
@@ -103,10 +100,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
         mPocketPreference.setEnabled(dozeEnabled);
         mPocketPreference.setOnPreferenceChangeListener(this);
 
-        mFodDetectorPreference = (SwitchPreference) findPreference(DozeUtils.GESTURE_FOD_DETECTOR_KEY);
-        mFodDetectorPreference.setEnabled(dozeEnabled);
-        mFodDetectorPreference.setOnPreferenceChangeListener(this);
-
         // Hide proximity sensor related features if the device doesn't support them
         if (!DozeUtils.getProxCheckBeforePulse(getActivity())) {
             getPreferenceScreen().removePreference(proximitySensorCategory);
@@ -119,8 +112,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
             mPickUpPreference.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
             pickupSensorCategory.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
             proximitySensorCategory.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
-            fodSensorCategory.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
-            mFodDetectorPreference.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
             raiseToWakeGesture.setDependency(DozeUtils.ALWAYS_ON_DISPLAY);
         }
     }
@@ -184,7 +175,6 @@ public class DozeSettingsFragment extends PreferenceFragment implements OnPrefer
         mRaiseToWakePreference.setEnabled(isChecked);
         mHandwavePreference.setEnabled(isChecked);
         mPocketPreference.setEnabled(isChecked);
-        mFodDetectorPreference.setEnabled(isChecked);
     }
 
     @Override
